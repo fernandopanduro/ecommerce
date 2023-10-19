@@ -1,26 +1,19 @@
 "use client";
 
 import Heading from "@/components/ui/Heading";
+import ApiList from "@/components/ui/api-list";
 import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
 import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
+import { BillboardColumn, columns } from "./columns";
 
-/* import { BillboardForm } from "./components/billboard-form"; */
+type Props = {
+  data: BillboardColumn[];
+};
 
-const BillboardPage = async (/* {
-  params,
-}: {
-  params: { billboardId: string };
-} */) => {
-  /* const billboard = await prismadb.billboard.findUnique({
-    where: {
-      id: params.billboardId,
-    },
-  });
-
-  console.log(billboard); */
-
+const BillboardPage = ({ data }: Props) => {
   const router = useRouter();
   const params = useParams();
 
@@ -28,7 +21,7 @@ const BillboardPage = async (/* {
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title="Billboards [0]"
+          title={`Billboards (${data.length})`}
           description="Manage billboards for your store"
         />
         <Button
@@ -38,6 +31,10 @@ const BillboardPage = async (/* {
         </Button>
       </div>
       <Separator />
+      <DataTable searchKey="label" columns={columns} data={data} />
+      <Heading title="API" description="API calls for Billboards" />
+      <Separator />
+      <ApiList entityIdName="billboardId" entityName="billboards" />
     </>
   );
 };
