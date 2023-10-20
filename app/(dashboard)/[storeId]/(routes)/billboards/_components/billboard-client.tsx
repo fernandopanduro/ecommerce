@@ -1,21 +1,23 @@
 "use client";
 
+import { Plus } from "lucide-react";
+import { useParams, useRouter } from "next/navigation";
+
 import Heading from "@/components/ui/Heading";
 import ApiList from "@/components/ui/api-list";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { Separator } from "@/components/ui/separator";
-import { Plus } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
+
 import { BillboardColumn, columns } from "./columns";
 
-type Props = {
+interface BillboardClientProps {
   data: BillboardColumn[];
-};
+}
 
-const BillboardPage = ({ data }: Props) => {
-  const router = useRouter();
+export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
   const params = useParams();
+  const router = useRouter();
 
   return (
     <>
@@ -26,17 +28,14 @@ const BillboardPage = ({ data }: Props) => {
         />
         <Button
           onClick={() => router.push(`/${params.storeId}/billboards/new`)}>
-          <Plus className="h-4 w-4 mr-2" />
-          Add New
+          <Plus className="mr-2 h-4 w-4" /> Add New
         </Button>
       </div>
       <Separator />
       <DataTable searchKey="label" columns={columns} data={data} />
-      <Heading title="API" description="API calls for Billboards" />
+      <Heading title="API" description="API Calls for Billboards" />
       <Separator />
-      <ApiList entityIdName="billboardId" entityName="billboards" />
+      <ApiList entityName="billboards" entityIdName="billboardId" />
     </>
   );
 };
-
-export default BillboardPage;

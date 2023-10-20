@@ -1,13 +1,11 @@
-import prismadb from "@/lib/prismadb";
 import { format } from "date-fns";
-import BillboardClient from "./_components/billboard-client";
+
+import prismadb from "@/lib/prismadb";
+
+import { BillboardClient } from "./_components/billboard-client";
 import { BillboardColumn } from "./_components/columns";
 
-type Props = {
-  params: { storeId: string };
-};
-
-const BillboardsPage = async ({ params }: Props) => {
+const BillboardsPage = async ({ params }: { params: { storeId: string } }) => {
   const billboards = await prismadb.billboard.findMany({
     where: {
       storeId: params.storeId,
@@ -24,8 +22,8 @@ const BillboardsPage = async ({ params }: Props) => {
   }));
 
   return (
-    <div className="flex-col p-6">
-      <div className="flex-1 space-y-4 p-2 pt-6">
+    <div className="flex-col">
+      <div className="flex-1 space-y-4 p-8 pt-6">
         <BillboardClient data={formattedBillboards} />
       </div>
     </div>
